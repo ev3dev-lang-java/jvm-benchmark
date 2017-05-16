@@ -129,3 +129,6 @@ After the review of the results, it is clear that it is better to use
 the Oracle JVM for EV3 Brick.
 
 Juan Antonio
+
+**Sources:**
+https://sourceforge.net/p/lejos/nxt/code/HEAD/tree/trunk/org.lejos.nxt.benchmark/
