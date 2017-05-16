@@ -1,9 +1,40 @@
 # jvm-benchmark
 
-A JVM benchmark
+A JVM benchmark for EV3.
+
+In a EV3 Brick managed with EV3Dev, it is possible to install some [JVM](https://wiki.debian.org/Java/):
+
+- [Oracle Java 8 SE Embedded](http://www.oracle.com/technetwork/java/embedded/downloads/javase/javaseemeddedev3-1982511.html)
+- [OpenJDK 8 Headless](https://packages.debian.org/jessie-backports/openjdk-8-jdk-headless)
+
+If you have a Brick with both JRE (Oracle & OpenJDK), this project could
+help you to know what JVM has better performance.
+
+## The benchmark script:
+
+```
+#!/bin/bash
+
+start=`date +%s`
+/usr/lib/jvm/java-8-openjdk-armel/jre/bin/java -server -jar jvm-benchmark-all-0.1.0-SNAPSHOT.jar
+end=`date +%s`
+
+runtime=$((end-start))
+echo $runtime
+
+start=`date +%s`
+/opt/ejdk1.8.0/linux_arm_sflt/jre/bin/java -server -jar jvm-benchmark-all-0.1.0-SNAPSHOT.jar
+end=`date +%s`
+
+runtime=$((end-start))
+echo $runtime
+```
+
+## The results:
 
 ```
 robot@ev3dev:~$ ./benchmark.sh
+
 GeneralBench 1.2
        6 byte[16384] manual copies:       182 ms     540131 bytes/sec
     1220 byte[16384] arraycopies:         360 ms   55523555 bytes/sec
@@ -46,6 +77,7 @@ GeneralBench 1.2
  6242048 Total Loop Executions:         21614 ms     288796 loops/sec
 Note: each Loop Execution includes multiple Java operations
 100
+
 GeneralBench 1.2
        6 byte[16384] manual copies:        87 ms    1129931 bytes/sec
     1220 byte[16384] arraycopies:         162 ms  123385679 bytes/sec
@@ -85,8 +117,15 @@ GeneralBench 1.2
    20000 string compares (easy):           62 ms     322580 ops/sec
     1000 string compares (hard):            3 ms     333333 ops/sec
    20000 object creations:                135 ms     148148 ops/sec
- 6242048 Total Loop Executions:          5200 ms    1200393 loops/sec
+ 6242048 Total Loop Executions:          5200 ms    100393 loops/sec
 Note: each Loop Execution includes multiple Java operations
 11
 robot@ev3dev:~$
 ```
+
+## Conclussions:
+
+After the review of the results, it is clear that it is better to use
+the Oracle JVM for EV3 Brick.
+
+Juan Antonio
