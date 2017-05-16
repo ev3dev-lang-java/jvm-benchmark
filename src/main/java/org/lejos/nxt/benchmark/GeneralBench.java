@@ -118,8 +118,8 @@ public class GeneralBench
 		countAll += benchMethodStatic(iterate);
 		BenchUtils.cleanUp(null);
 
-		countAll += benchMethodStaticNative(iterate);
-		BenchUtils.cleanUp(null);
+		//countAll += benchMethodStaticNative(iterate);
+		//BenchUtils.cleanUp(null);
 
 		countAll += benchStringConcat(tests / 10);
 		BenchUtils.cleanUp(null);
