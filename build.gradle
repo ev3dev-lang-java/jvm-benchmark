@@ -1,7 +1,7 @@
 //Gradle file library ev3dev-lang-java // jvm-benchmark
 //Author: Juan Antonio Breña Moral
 
-version = '0.1.0'
+version = '0.2.0'
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -24,20 +24,34 @@ compileJava {
     targetCompatibility = 1.8
 }
 
+
 //Jar
 jar {
     baseName = "${rootProject.name}"
+    manifest {
+        from file("${projectDir}/src/main/resources/META-INF/MANIFEST.MF")
+    }
+}
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.0'
+        classpath "gradle.plugin.net.ossindex:ossindex-gradle-plugin:0.1.1"
+    }
 }
 
 //Fat Jar
-task fatJar(type: Jar) {
-    baseName = "${rootProject.name}" + "-all"
-    manifest {
-        from file("${projectDir}/src/main/java/META-INF/MANIFEST.MF")
-    }
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: "net.ossindex.audit"
+
+task fatJar << {
+
 }
+fatJar.dependsOn shadowJar
 
 //Deploy on Brick
 buildscript {
